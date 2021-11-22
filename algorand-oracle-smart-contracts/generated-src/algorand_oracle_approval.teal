@@ -1,0 +1,222 @@
+#pragma version 5
+txn ApplicationID
+int 0
+==
+bnz main_l20
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l19
+txn OnCompletion
+int UpdateApplication
+==
+bnz main_l18
+txn OnCompletion
+int CloseOut
+==
+bnz main_l17
+txn OnCompletion
+int OptIn
+==
+bnz main_l16
+txna ApplicationArgs 0
+byte "set_admin"
+==
+bnz main_l15
+txna ApplicationArgs 0
+byte "whitelist"
+==
+bnz main_l14
+txna ApplicationArgs 0
+byte "allocate_requests"
+==
+bnz main_l13
+txna ApplicationArgs 0
+byte "buy_requests"
+==
+bnz main_l12
+txna ApplicationArgs 0
+byte "get_market_exchange_rate"
+==
+bnz main_l11
+err
+main_l11:
+int 0
+byte "whitelisted"
+app_local_get
+txn Note
+byte "algo-oracle-app-4"
+==
+&&
+txn NumAppArgs
+int 4
+==
+&&
+txn NumAccounts
+int 0
+==
+&&
+int 0
+byte "requests_balance"
+app_local_get
+int 1
+>=
+&&
+assert
+int 0
+byte "requests_balance"
+int 0
+byte "requests_balance"
+app_local_get
+int 1
+-
+app_local_put
+int 1
+return
+main_l12:
+int 0
+byte "whitelisted"
+app_local_get
+global GroupSize
+int 2
+==
+&&
+gtxn 0 TypeEnum
+int pay
+==
+&&
+gtxn 0 Receiver
+addr N5ICVTFKS7RJJHGWWM5QXG2L3BV3GEF6N37D2ZF73O4PCBZCXP4HV3K7CY
+==
+&&
+gtxn 0 Amount
+int 10000000
+>=
+&&
+gtxn 0 Amount
+int 1000000000
+<=
+&&
+txn GroupIndex
+int 1
+==
+&&
+txn NumAppArgs
+int 2
+==
+&&
+txn NumAccounts
+int 1
+==
+&&
+assert
+int 1
+byte "requests_balance"
+int 1
+byte "requests_balance"
+app_local_get
+gtxn 0 Amount
+int 100000
+/
++
+app_local_put
+int 1
+return
+main_l13:
+int 0
+byte "admin"
+app_local_get
+txn NumAppArgs
+int 3
+==
+&&
+txn NumAccounts
+int 1
+==
+&&
+int 1
+byte "whitelisted"
+app_local_get
+&&
+assert
+int 1
+byte "requests_balance"
+int 1
+byte "requests_balance"
+app_local_get
+txna ApplicationArgs 1
+btoi
++
+app_local_put
+int 1
+return
+main_l14:
+int 0
+byte "admin"
+app_local_get
+txn NumAppArgs
+int 2
+==
+&&
+txn NumAccounts
+int 1
+==
+&&
+assert
+int 1
+byte "whitelisted"
+int 1
+app_local_put
+int 1
+return
+main_l15:
+int 0
+byte "admin"
+app_local_get
+txn NumAppArgs
+int 3
+==
+&&
+txn NumAccounts
+int 1
+==
+&&
+assert
+int 1
+byte "admin"
+txna ApplicationArgs 2
+btoi
+app_local_put
+int 1
+return
+main_l16:
+int 0
+byte "whitelisted"
+int 0
+app_local_put
+int 1
+return
+main_l17:
+int 1
+return
+main_l18:
+int 0
+byte "admin"
+app_local_get
+return
+main_l19:
+int 0
+byte "admin"
+app_local_get
+return
+main_l20:
+txn NumAppArgs
+int 0
+==
+assert
+int 0
+byte "admin"
+int 1
+app_local_put
+int 1
+return

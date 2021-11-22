@@ -1,0 +1,23 @@
+{
+  "name" : "algorand-oracle-smart-contracts",
+  "version" : "1.0",
+  "stateful_contracts" : [ {
+    "name" : "AlgorandOracle",
+    "approval_program" : "generated-src/algorand_oracle_approval.teal",
+    "clear_state_program" : "generated-src/algorand_oracle_clear_state.teal",
+    "global-byteslices" : 0,
+    "global-ints" : 0,
+    "local-byteslices" : 0,
+    "local-ints" : 3,
+    "extra-pages" : 0
+  }, {
+    "name" : "AlgorandOracleCallback",
+    "approval_program" : "generated-src/algorand_oracle_callback_approval.teal",
+    "clear_state_program" : "generated-src/algorand_oracle_callback_clear_state.teal",
+    "global-byteslices" : 0,
+    "global-ints" : 0,
+    "local-byteslices" : 0,
+    "local-ints" : 0,
+    "extra-pages" : 0
+  } ]
+}

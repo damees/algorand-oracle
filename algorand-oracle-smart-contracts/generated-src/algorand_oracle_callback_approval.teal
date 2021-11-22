@@ -1,0 +1,99 @@
+#pragma version 5
+txn ApplicationID
+int 0
+==
+bnz main_l14
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l13
+txn OnCompletion
+int UpdateApplication
+==
+bnz main_l12
+txn OnCompletion
+int CloseOut
+==
+bnz main_l11
+txn OnCompletion
+int OptIn
+==
+bnz main_l10
+txna ApplicationArgs 0
+byte "whitelist"
+==
+bnz main_l9
+txna ApplicationArgs 0
+byte "get_market_exchange_rate_callback"
+==
+bnz main_l8
+err
+main_l8:
+int 0
+byte "whitelisted"
+app_local_get
+txn NumAppArgs
+int 3
+==
+&&
+txn NumAccounts
+int 0
+==
+&&
+assert
+txna ApplicationArgs 1
+txna ApplicationArgs 2
+btoi
+app_global_put
+int 1
+return
+main_l9:
+int 0
+byte "admin"
+app_local_get
+txn NumAppArgs
+int 2
+==
+&&
+txn NumAccounts
+int 1
+==
+&&
+assert
+int 1
+byte "whitelisted"
+int 1
+app_local_put
+int 1
+return
+main_l10:
+int 0
+byte "whitelisted"
+int 0
+app_local_put
+int 1
+return
+main_l11:
+int 1
+return
+main_l12:
+int 0
+byte "admin"
+app_local_get
+return
+main_l13:
+int 0
+byte "admin"
+app_local_get
+return
+main_l14:
+txn NumAppArgs
+int 0
+==
+assert
+int 0
+byte "admin"
+int 1
+app_local_put
+int 1
+return
